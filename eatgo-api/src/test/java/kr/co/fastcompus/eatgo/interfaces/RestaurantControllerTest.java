@@ -1,12 +1,13 @@
 package kr.co.fastcompus.eatgo.interfaces;
 
 import kr.co.fastcompus.eatgo.application.RestaurantService;
-import kr.co.fastcompus.eatgo.domain.*;
+import kr.co.fastcompus.eatgo.domain.MenuItem;
+import kr.co.fastcompus.eatgo.domain.Restaurant;
+import kr.co.fastcompus.eatgo.domain.RestaurantNotFoundException;
+import kr.co.fastcompus.eatgo.domain.Review;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,7 +23,6 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 //@SpringBootTest
 //@AutoConfigureMockMvc

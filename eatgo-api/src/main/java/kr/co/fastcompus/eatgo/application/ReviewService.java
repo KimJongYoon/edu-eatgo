@@ -15,7 +15,8 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    public Review addReview(Long RestaurantId,Review review) {
-       return reviewRepository.save(review);
+    public Review addReview(Long RestaurantId, Review review) {
+        review.setRestaurantId(RestaurantId);
+        return reviewRepository.save(review);
     }
 }

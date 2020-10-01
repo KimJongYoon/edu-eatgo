@@ -129,7 +129,7 @@ class RestaurantServiceTest {
     @Test
     public void addRestaurants() {
 
-        given(restaurantRepository.save(any())).will(invocation -> {
+        given(restaurantRepository.save(any())).will(invocation -> { 
            Restaurant restaurant = invocation.getArgument(0);
            restaurant.setId(1234L);
            return restaurant;

@@ -33,7 +33,7 @@ public class ReviewControllerTest {
     @Test
     public void createWithValidAttritues() throws Exception {
         given(reviewService.addReview(eq(1L), any())).will(invocation -> {
-           Review review = invocation.getArgument(0);
+           Review review = invocation.getArgument(1);
             review.setId(1234L);
 
            return review;

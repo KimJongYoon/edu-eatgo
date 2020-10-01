@@ -29,11 +29,11 @@ class ReviewServiceTest {
 
     @Test
     void addReview() {
-        given(reviewRepository.save(any())).willReturn(
-                Review.builder()
-                        .id(1L)
-                        .build()
-        );
+        given(reviewRepository.save(any())).will(invocation -> {
+            Review review = invocation.getArgument(0);
+            review.setId(1L);
+            return review;
+        });
 
         Review review = Review.builder()
                 .name("KJY")
@@ -41,9 +41,11 @@ class ReviewServiceTest {
                 .build();
 
         Review created =  reviewService.addReview(1004L, review);
+        System.out.println(created);
 
         verify(reviewRepository).save(any());
         assertThat(created.getId(), is(1L));
+        assertThat(created.getRestaurantId(), is(1004L));
 
     }
 }

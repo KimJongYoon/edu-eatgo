@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class Review {
 
     @Id
@@ -28,8 +29,8 @@ public class Review {
     @NotEmpty
     String name;
 
-    @Min(0)
-    @Max(5)
+//    @Min(0)
+//    @Max(5)
     Integer score;
 
     String description;

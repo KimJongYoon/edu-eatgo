@@ -1,3 +1,13 @@
+### 리뷰 등록
+POST http://localhost:8080/restaurants/1/reviews
+Content-Type: application/json
+
+{
+  "name" : "JOKER",
+  "score" : 1,
+  "description" : "맛있네요"
+}
+
 
 ### 메뉴 아이템 수정, 삭제 한번에 하기
 PATCH http://localhost:8080/restaurants/1/menuitems
