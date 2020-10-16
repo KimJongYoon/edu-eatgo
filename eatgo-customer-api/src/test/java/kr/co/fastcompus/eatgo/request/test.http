@@ -1,0 +1,43 @@
+### 리뷰 등록
+POST http://localhost:8080/restaurants/1/reviews
+Content-Type: application/json
+
+{
+  "name" : "JOKER",
+  "score" : 1,
+  "description" : "맛있네요"
+}
+
+
+### 메뉴 아이템 수정, 삭제 한번에 하기
+PATCH http://localhost:8080/restaurants/1/menuitems
+Content-Type: application/json
+
+[
+  {"id" :  2, "menu": "김치"},
+  {"id" :  3, "destroy": true}
+]
+
+
+### 메뉴 아이템 추가
+PATCH http://localhost:8080/restaurants/1/menuitems
+Content-Type: application/json
+
+[
+  {"menu" :  "Kimchi"}, {"menu" :  "Gukbob"}
+]
+
+### 레스토랑 조회
+GET http://localhost:8080/restaurants
+
+### 레스토랑 조회(1건)
+GET http://localhost:8080/restaurants/1
+
+### 레스토랑 등록
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+"name" : "Bob Zip",
+"addr" : "Seoul"
+}
