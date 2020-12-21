@@ -26,11 +26,11 @@ public class Review {
     @Setter
     Long restaurantId;
 
-    @NotEmpty
     String name;
 
-//    @Min(0)
-//    @Max(5)
+    @NotNull(message = "score 값이 비었습니다.")
+    @Min(0)
+    @Max(5)
     Integer score;
 
     String description;

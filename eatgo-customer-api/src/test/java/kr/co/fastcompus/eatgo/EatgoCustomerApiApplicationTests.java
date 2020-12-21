@@ -59,136 +59,21 @@ class EatgoCustomerApiApplicationTests {
 	@Test
 	public void totalTest() throws Exception {
 		getEmptyRestaurants();
-		String restaurantId = addRestaurants();
-		addMenu(restaurantId);
 	}
 
 	/**
-	 * 초기 데이터 비어있는지 확인
+	 * 초기 데이터 확인
 	 */
 	public void getEmptyRestaurants() throws Exception {
 		System.out.println("TEST1");
 		mvc.perform(
-				get("http://localhost:8080/restaurants")
+				get("/restaurants")
 						.contentType(MediaType.APPLICATION_JSON)
 		)
 //				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(content().string("[]"));
 		;
 	}
 
-	/**
-	 * 1)레스토랑 데이터 입력
-	 * 2)메뉴,bulk 수정, 삭제
-	 *
-	 */
-	public String addRestaurants() throws Exception {
-		Restaurant restaurant = Restaurant.builder()
-				.addr("Seoul")
-				.name("화룡정점")
-				.build();
-
-		ObjectMapper op = new ObjectMapper();
-
-		// 데이터 등록
-		MvcResult mvcResult = mvc.perform(post("http://localhost:8080/restaurants")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(op.writeValueAsString(restaurant))
-		)
-//		.andDo(print())
-				.andExpect(status().isCreated())
-				.andExpect(header().exists("location"))
-				.andReturn()
-				;
-
-		String retaurantId = mvcResult.getResponse().getHeader("Location");
-
-		// 데이터 조회
-		mvc.perform(
-				get("http://localhost:8080/" + retaurantId)
-						.contentType(MediaType.APPLICATION_JSON)
-		)
-//				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.name").value(restaurant.getName()))
-				.andExpect(jsonPath("$.addr").value(restaurant.getAddr()))
-		;
-		return retaurantId;
-	}
-	/**
-	 * 1)레스토랑 데이터 입력
-	 * 2)메뉴,bulk 수정, 삭제
-	 *
-	 */
-	@Test
-	public void addMenu(String retaurantId) throws Exception {
-		List<MenuItem> menuItemList = Arrays.asList(
-				MenuItem.builder()
-						.menu("자장면")
-						.build()
-				,
-				MenuItem.builder()
-						.menu("짬뽕")
-						.build()
-		);
-
-		ObjectMapper op = new ObjectMapper();
-
-
-		// 메뉴 등록
-		mvc.perform(
-				patch("http://localhost:8080/" + retaurantId + "/menuitems" )
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(op.writeValueAsString(menuItemList))
-		)
-//		.andDo(print())
-				.andExpect(status().isOk())
-		;
-
-
-		// 데이터 조회
-		mvc.perform(
-				get("http://localhost:8080/" + retaurantId)
-						.contentType(MediaType.APPLICATION_JSON)
-		)
-//				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.menuItems[0].menu").value(menuItemList.get(0).getMenu()))
-				.andExpect(jsonPath("$.menuItems[1].menu").value(menuItemList.get(1).getMenu()))
-		;
-
-		//메뉴 수정 및 삭제 한번에 하기
-		menuItemList = Arrays.asList(
-				MenuItem.builder()
-						.id(2L)
-						.menu("탕수육")
-						.build()
-				,
-				MenuItem.builder()
-						.id(3L)
-						.destroy(true)
-						.build()
-		);
-		mvc.perform(
-				patch("http://localhost:8080/" + retaurantId + "/menuitems" )
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(op.writeValueAsString(menuItemList))
-		)
-//				.andDo(print())
-				.andExpect(status().isOk())
-		;
-
-		// 데이터 조회
-		mvc.perform(
-				get("http://localhost:8080/" + retaurantId)
-						.contentType(MediaType.APPLICATION_JSON)
-		)
-//				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.menuItems[0].menu").value(menuItemList.get(0).getMenu()))
-				.andExpect(jsonPath("$.menuItems[1].menu").doesNotExist())
-		;
-	}
 
 }

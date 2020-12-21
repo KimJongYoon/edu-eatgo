@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity(name = "menuItem")
+@Entity(name = "menuItem") // 테이블 명
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +19,7 @@ public class MenuItem {
 
     @Setter
     private Long restaurantId;
+
 
     private String menu;
 

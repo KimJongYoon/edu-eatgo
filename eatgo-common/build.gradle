@@ -24,6 +24,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' /*jpa*/
     implementation 'com.h2database:h2' /*h2 DB*/
     implementation 'junit:junit:4.12'
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.10.7' /*jwt*/
+    runtime "io.jsonwebtoken:jjwt-impl:0.10.7"
+    runtime "io.jsonwebtoken:jjwt-jackson:0.10.7"
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
@@ -38,4 +43,12 @@ test {
 
 jar {
     enabled = true
+}
+
+/* eatgo 부모 gradle에서 build하면 common 프로젝트에서 bootJar 때문에 fail이 일어난다.
+* 해결 방법 1) dependencies에서 spring-boot-starter-web 제외 및 다른 의존성 추가
+* 해결 방법 2) bootJar 미사용 옵션 추가
+* */
+bootJar {
+    enabled = false
 }

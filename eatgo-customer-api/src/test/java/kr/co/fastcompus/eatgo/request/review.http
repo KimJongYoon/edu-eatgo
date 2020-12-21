@@ -1,0 +1,23 @@
+### 리뷰 등록(토큰 적용 후)
+POST http://localhost:8080/restaurants/1/reviews
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsIm5hbWUiOiJKb2huIn0.8hm6ZOJykSINHxL-rf0yV882fApL3hyQ9-WGlJUyo2A
+Content-Type: application/json
+
+{
+  "name" : "JOKER",
+  "score" : 3,
+  "description" : "맛있네요"
+}
+
+### 리뷰 등록(토큰 적용 전)
+POST http://localhost:8080/restaurants/1/reviews
+Content-Type: application/json
+
+{
+  "name" : "JOKER",
+  "score" : 3,
+  "description" : "맛있네요"
+}
+
+### 리뷰 조회
+GET http://localhost:8080/reviews

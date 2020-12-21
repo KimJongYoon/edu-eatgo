@@ -1,0 +1,26 @@
+### 레스토랑 조회(필터)
+GET http://localhost:8080/restaurants?region=부산&category=1
+
+### 레스토랑 조회
+GET http://localhost:8080/restaurants
+
+### 레스토랑 조회(1건)
+GET http://localhost:8080/restaurants/1
+
+### 레스토랑 등록
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+"name" : "Bob Zip",
+"addr" : "Seoul"
+}
+
+### 레스토랑 등록(2)
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+  "name" : "Beryong",
+  "addr" : "Busan"
+}

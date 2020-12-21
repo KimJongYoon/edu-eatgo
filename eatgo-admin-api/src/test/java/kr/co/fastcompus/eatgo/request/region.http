@@ -1,0 +1,10 @@
+### 리전 추가
+POST http://localhost:8080/regions
+Content-Type: application/json
+
+{
+"name" : "서울"
+}
+
+### 리전 조회
+GET http://localhost:8080/regions

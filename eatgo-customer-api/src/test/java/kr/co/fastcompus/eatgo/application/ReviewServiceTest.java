@@ -35,12 +35,7 @@ class ReviewServiceTest {
             return review;
         });
 
-        Review review = Review.builder()
-                .name("KJY")
-                .description("맛있다")
-                .build();
-
-        Review created =  reviewService.addReview(1004L, review);
+        Review created =  reviewService.addReview(1004L, "KJY", 3, "맛있다");
         System.out.println(created);
 
         verify(reviewRepository).save(any());

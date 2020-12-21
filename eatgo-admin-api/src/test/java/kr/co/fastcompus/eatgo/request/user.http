@@ -1,0 +1,24 @@
+DELETE http://localhost:8080/users/47
+
+###
+PATCH http://localhost:8080/users/47
+Content-Type: application/json
+
+{
+  "email" :  "tester2@example.com",
+  "name" :  "tester2",
+  "level" : 100
+}
+
+
+###
+POST http://localhost:8080/users/
+Content-Type: application/json
+
+{
+  "email" :  "tester2@example.com",
+  "name" :  "tester2"
+}
+
+### 사용자 조회
+GET http://localhost:8080/users/

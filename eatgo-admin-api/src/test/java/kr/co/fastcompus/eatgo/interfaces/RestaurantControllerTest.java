@@ -49,6 +49,7 @@ class RestaurantControllerTest {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .build());
         given(restaurantService.getRestaurants()).willReturn(restaurants);
@@ -73,6 +74,7 @@ class RestaurantControllerTest {
     public void detailWithExisted() throws Exception {
         Restaurant restaurant = Restaurant.builder() // 가짜객체
                 .id(1004L)
+                .categoryId(1L)
                 .name("Bob zip")
                 .build();
 
@@ -115,6 +117,7 @@ class RestaurantControllerTest {
         given(restaurantService.addRestaurant(any())).will(invocation -> {
             Restaurant restaurant = invocation.getArgument(0);
             restaurant.setId(1234L);
+            restaurant.setCategoryId(1L);
 
             return restaurant;
         });
@@ -122,7 +125,7 @@ class RestaurantControllerTest {
         mvc.perform(
                 post("/restaurants")
                         .contentType(MediaType.APPLICATION_JSON) // 미디어 타입 설정
-                        .content("{\"name\" : \"BeRyong\", \"addr\" : \"Busan\"}")
+                        .content("{\"name\" : \"BeRyong\", \"addr\" : \"Busan\", \"categoryId\" : 1}")
         )
                 .andDo(print())
                 .andExpect(status().isCreated())
@@ -143,14 +146,14 @@ class RestaurantControllerTest {
         given(restaurantService.addRestaurant(any())).will(invocation -> {
             Restaurant restaurant = invocation.getArgument(0);
             restaurant.setId(1234L);
+            restaurant.setCategoryId(1L);
 
             return restaurant;
         });
-
         mvc.perform(
                 post("/restaurants")
                         .contentType(MediaType.APPLICATION_JSON) // 미디어 타입 설정
-                        .content("{\"name\" : \"\", \"addr\" : \"\"}")
+                        .content("{\"name\" : \"\", \"addr\" : \"\", \"categoryId\" : 1}")
         )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
@@ -170,7 +173,7 @@ class RestaurantControllerTest {
         mvc.perform(
                 patch("/restaurants/1004")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\" : \"JOKER Bar\", \"addr\" : \"Busan\"}")
+                        .content("{\"name\" : \"JOKER Bar\", \"addr\" : \"Busan\", \"categoryId\" : 1}")
         ).andExpect(status().isOk());
         verify(restaurantService).updateRestaurants(1004L, "JOKER Bar", "Busan");
 
@@ -188,7 +191,7 @@ class RestaurantControllerTest {
         mvc.perform(
                 patch("/restaurants/1004")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\" : \"\", \"addr\" : \"\"}")
+                        .content("{\"name\" : \"\", \"addr\" : \"\", \"categoryId\" : 1}")
         ).andExpect(status().isBadRequest());
 
     }

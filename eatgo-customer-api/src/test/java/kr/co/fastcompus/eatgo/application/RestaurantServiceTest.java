@@ -51,12 +51,13 @@ class RestaurantServiceTest {
         List<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .addr("Seoul")
                 .name("Bob zip")
                 .menuItems(new ArrayList<>())
                 .build();
         restaurants.add(restaurant);
-        given(restaurantRepository.findAll()).willReturn(restaurants);
+        given(restaurantRepository.findAllByAddrContainingAndCategoryId("Seoul", 1L)).willReturn(restaurants);
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
 
     }
@@ -114,12 +115,17 @@ class RestaurantServiceTest {
      */
     @Test
     public void getRestaurants() {
-        List<Restaurant> restaurants = restaurantService.getRestaurants();
+        String region = "Seoul";
+        long categoryId = 1L;
+
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region, categoryId);
 
         verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
         verify(reviewRepository).findAllByRestaurantId(eq(1004L));
+        verify(restaurantRepository).findAllByAddrContainingAndCategoryId(eq("Seoul"), eq(1L));
 
         assertThat(restaurants.get(0).getId(), is(1004L));
+        assertThat(restaurants.get(0).getCategoryId(), is(1L));
 
     }
 

@@ -1,0 +1,10 @@
+### 카테고리 추가
+POST http://localhost:8080/categories
+Content-Type: application/json
+
+{
+"name" : "한식"
+}
+
+### 카테고리 조회
+GET http://localhost:8080/categories

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -45,9 +46,17 @@ public class RestaurantService {
     /**
      * 리스트 조회
      * @return
+     * @param reion
+     * @param categoryId
      */
-    public List<Restaurant> getRestaurants() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
+    public List<Restaurant> getRestaurants(String reion, Long categoryId) {
+        // TODO:: categoryId 작업 예정
+        List<Restaurant> restaurants = null;
+
+
+        if(StringUtils.isEmpty(reion)) restaurants = restaurantRepository.findAll();
+        else restaurants = restaurantRepository.findAllByAddrContainingAndCategoryId(reion, categoryId);
+
         restaurants.forEach(e ->{
                 e.setMenuItems(menuItemRepository.findAllByRestaurantId(e.getId()));
                 e.setReviews(reviewRepository.findAllByRestaurantId(e.getId()));

@@ -24,7 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' /*jpa*/
-	implementation 'com.h2database:h2' /*h2 DB*/
+	implementation 'com.h2database:h2' /*h2 DB(메모리, 파일 모드로 사용할 수 있음. 메모리는 앱 끄면 사라짐)*/
 	implementation 'junit:junit:4.12'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -37,3 +37,9 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+/*그래들에서 스프링부트에서 제공하는 프로파일을 적용하기 위한 설정이다*/
+//bootRun{
+//	String activeProfile = System.properties['spring.profiles.active']
+//	systemProperty("spring.profiles.active", activeProfile)
+//}

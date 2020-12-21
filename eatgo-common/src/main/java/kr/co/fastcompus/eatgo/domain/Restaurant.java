@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,10 @@ public class Restaurant {
     @GeneratedValue
     @Setter
     private Long id;
+
+    @NotNull
+    @Setter
+    private Long categoryId;
 
     @NotEmpty
     private String name;

@@ -1,18 +1,14 @@
 package kr.co.fastcompus.eatgo;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 import kr.co.fastcompus.eatgo.application.RestaurantService;
 import kr.co.fastcompus.eatgo.domain.MenuItem;
 import kr.co.fastcompus.eatgo.domain.Restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,11 +16,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import javax.naming.Context;
 import javax.transaction.Transactional;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc // 통합 테스트 시 사용
-class EatgoAdminApiApplicationTests {
+public class EatgoAdminApiApplicationTests {
 
 	@Autowired
 	private RestaurantService restaurantService;
@@ -56,15 +49,15 @@ class EatgoAdminApiApplicationTests {
 
 	}
 
-	@Test
+//	@Test
 	public void totalTest() throws Exception {
-		getEmptyRestaurants();
-		String restaurantId = addRestaurants();
-		addMenu(restaurantId);
+//		getEmptyRestaurants();
+//		String restaurantId = addRestaurants();
+//		addMenu(restaurantId);
 	}
 
 	/**
-	 * 초기 데이터 비어있는지 확인
+	 * 초기 데이터 확인
 	 */
 	public void getEmptyRestaurants() throws Exception {
 		System.out.println("TEST1");
@@ -74,7 +67,6 @@ class EatgoAdminApiApplicationTests {
 		)
 //				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(content().string("[]"));
 		;
 	}
 
@@ -87,6 +79,7 @@ class EatgoAdminApiApplicationTests {
 		Restaurant restaurant = Restaurant.builder()
 				.addr("Seoul")
 				.name("화룡정점")
+				.categoryId(1L)
 				.build();
 
 		ObjectMapper op = new ObjectMapper();
@@ -147,25 +140,29 @@ class EatgoAdminApiApplicationTests {
 
 
 		// 데이터 조회
-		mvc.perform(
-				get("http://localhost:8080/" + retaurantId)
+		MvcResult mvcResult = mvc.perform(
+				get("http://localhost:8080/" + retaurantId + "/menuitems")
 						.contentType(MediaType.APPLICATION_JSON)
 		)
-//				.andDo(print())
+				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.menuItems[0].menu").value(menuItemList.get(0).getMenu()))
-				.andExpect(jsonPath("$.menuItems[1].menu").value(menuItemList.get(1).getMenu()))
+				.andExpect(jsonPath("$[0].menu").value(menuItemList.get(0).getMenu()))
+				.andExpect(jsonPath("$[1].menu").value(menuItemList.get(1).getMenu()))
+				.andReturn()
 		;
+
+		String content = mvcResult.getResponse().getContentAsString();
+		List<MenuItem> menuItems = op.readValue(content, new TypeReference<List<MenuItem>>() {});
 
 		//메뉴 수정 및 삭제 한번에 하기
 		menuItemList = Arrays.asList(
 				MenuItem.builder()
-						.id(2L)
+						.id(menuItems.get(0).getId())
 						.menu("탕수육")
 						.build()
 				,
 				MenuItem.builder()
-						.id(3L)
+						.id(menuItems.get(1).getId())
 						.destroy(true)
 						.build()
 		);
@@ -180,13 +177,13 @@ class EatgoAdminApiApplicationTests {
 
 		// 데이터 조회
 		mvc.perform(
-				get("http://localhost:8080/" + retaurantId)
+				get("http://localhost:8080/" + retaurantId + "/menuitems")
 						.contentType(MediaType.APPLICATION_JSON)
 		)
 //				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.menuItems[0].menu").value(menuItemList.get(0).getMenu()))
-				.andExpect(jsonPath("$.menuItems[1].menu").doesNotExist())
+				.andExpect(jsonPath("$[0].menu").value(menuItemList.get(0).getMenu()))
+				.andExpect(jsonPath("$[1].menu").doesNotExist())
 		;
 	}
 

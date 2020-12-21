@@ -1,0 +1,24 @@
+### 레스토랑 조회
+GET http://localhost:8080/restaurants
+
+### 레스토랑 조회(1건)
+GET http://localhost:8080/restaurants/4
+
+
+### 레스토랑 등록
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+"name" : "Bob Zip",
+"addr" : "Seoul"
+}
+
+### 레스토랑 등록(2)
+POST http://localhost:8080/restaurants
+Content-Type: application/json
+
+{
+  "name" : "Beryong",
+  "addr" : "Busan"
+}

@@ -1,0 +1,30 @@
+
+
+### 메뉴 아이템 수정, 삭제 한번에 하기
+PATCH http://localhost:8080/restaurants/1/menuitems
+Content-Type: application/json
+
+[
+  {"id" :  2, "menu": "김치"},
+  {"id" :  3, "destroy": true}
+]
+
+
+### 메뉴 아이템 추가
+PATCH http://localhost:8080/restaurants/4/menuitems
+Content-Type: application/json
+
+[
+  {"menu" :  "Kimchi"}, {"menu" :  "Gukbob"}
+]
+
+### 메뉴 아이템 추가(2)
+PATCH http://localhost:8080/restaurants/4/menuitems
+Content-Type: application/json
+
+[
+  {"menu" :  "Egg"}, {"menu" :  "Rice"}
+]
+
+### 메뉴 조회
+GET http://localhost:8080/restaurants/4/menuitems

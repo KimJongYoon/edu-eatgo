@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:C:/h2_file_db/eatgo # h2 파일 저장 위치, 파일명
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret: 12345678901234567890123456789012
+---
+
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:h2:mem:test # h2 메모리로 실행

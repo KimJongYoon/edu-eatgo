@@ -43,6 +43,7 @@ class RestaurantServiceTest {
         List<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .addr("Seoul")
                 .name("Bob zip")
                 .menuItems(new ArrayList<>())
@@ -80,9 +81,6 @@ class RestaurantServiceTest {
     @Test
     public void getRestaurants() {
         List<Restaurant> restaurants = restaurantService.getRestaurants();
-
-//        verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
-//        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
 
         assertThat(restaurants.get(0).getId(), is(1004L));
 
